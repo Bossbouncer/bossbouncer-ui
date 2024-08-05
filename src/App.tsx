@@ -7,7 +7,9 @@ import "./App.css";
 import Hero from "./Components/Hero";
 import Rate from "./Components/Rate";
 import { MyGlobalContext, useGlobalContext } from "./Context/AppContext";
-import { reducer } from "./Context/Reducer";
+import { reducer, initialState } from "./Context/Reducer";
+import { STEPS } from "./Helpers/types";
+import { getStepMapping } from "./Helpers/helperFunctions";
 export default function App() {
   const [mode, setMode] = React.useState<PaletteMode>(localStorage.theme);
   const LPtheme = createTheme(getLPTheme(mode));
@@ -18,10 +20,10 @@ export default function App() {
       return prev === "dark" ? "light" : "dark";
     });
   };
-  const [state, dispatch] = React.useReducer(reducer,{rating:0});
+  const [state, dispatch] = React.useReducer(reducer, initialState);
 
   return (
-    <MyGlobalContext.Provider value={{ state,dispatch }}>
+    <MyGlobalContext.Provider value={{ state, dispatch }}>
       <ThemeProvider theme={LPtheme}>
         <CssBaseline />
         <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
@@ -40,7 +42,7 @@ export default function App() {
               };
             }}
           >
-            <Rate />
+            {getStepMapping(state.currentStep)}
           </Box>
         </div>
       </ThemeProvider>

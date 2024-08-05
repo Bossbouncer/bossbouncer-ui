@@ -5,12 +5,13 @@ import PushableButton from "../Common/PushableButton";
 import "./rating.css";
 import ThumbsUp from "../../Icons/ThumbsUp";
 import { ThumbDown, ThumbUp } from "@mui/icons-material";
-import useMediaQuery from '@mui/material/useMediaQuery';
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useGlobalContext } from "../../Context/AppContext";
+import { ActionKind, STEPS } from "../../Helpers/types";
 
 const RatingSystem = () => {
   const themeObject = useTheme();
-  const isMobile = useMediaQuery('(max-width:900px)');
+  const isMobile = useMediaQuery("(max-width:900px)");
   const { state, dispatch } = useGlobalContext();
   return (
     <div className="rating">
@@ -24,15 +25,21 @@ const RatingSystem = () => {
           gradientColor="hsl(0 0% 0%)"
           onClick={() => {
             dispatch({
-              type: "UPDATE_RATING",
-              payload:{
-                rating:1
-              }
+              type: ActionKind.UPDATE_RATING,
+              payload: {
+                rating: 1,
+              },
+            });
+            dispatch({
+              type: ActionKind.UPDATE_STEP,
+              payload: {
+                currentStep: STEPS.STEP_2,
+              },
             });
           }}
         >
           <ThumbUp
-            fontSize={isMobile?"small":"large"}
+            fontSize={isMobile ? "small" : "large"}
             sx={{ color: (theme) => theme.palette.text.primary }}
           />
         </PushableButton>
@@ -41,15 +48,21 @@ const RatingSystem = () => {
           gradientColor="hsl(0 0% 0%)"
           onClick={() => {
             dispatch({
-              type: "UPDATE_RATING",
-              payload:{
-                rating:0
-              }
+              type: ActionKind.UPDATE_RATING,
+              payload: {
+                rating: 0,
+              },
+            });
+            dispatch({
+              type: ActionKind.UPDATE_STEP,
+              payload: {
+                currentStep: STEPS.STEP_2,
+              },
             });
           }}
         >
           <ThumbUp
-            fontSize={isMobile?"small":"large"}
+            fontSize={isMobile ? "small" : "large"}
             sx={{
               color: (theme) => theme.palette.text.primary,
               transform: "rotate(90deg)",
@@ -61,15 +74,21 @@ const RatingSystem = () => {
           gradientColor="hsl(0 0% 0%)"
           onClick={() => {
             dispatch({
-              type: "UPDATE_RATING",
-              payload:{
-                rating:-1
-              }
+              type: ActionKind.UPDATE_RATING,
+              payload: {
+                rating: -1,
+              },
+            });
+            dispatch({
+              type: ActionKind.UPDATE_STEP,
+              payload: {
+                currentStep: STEPS.STEP_2,
+              },
             });
           }}
         >
           <ThumbDown
-            fontSize={isMobile?"small":"large"}
+            fontSize={isMobile ? "small" : "large"}
             sx={{ color: (theme) => theme.palette.text.primary }}
           />
         </PushableButton>

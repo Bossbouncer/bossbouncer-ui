@@ -1,8 +1,9 @@
 import { createContext, useContext, useReducer } from "react";
-import { GlobalContent } from "../Helpers/types";
+import { GlobalContent, STEPS } from "../Helpers/types";
+import { initialState } from "./Reducer";
 
 export const MyGlobalContext = createContext<GlobalContent>({
-  state: { rating: 0 },
+  state: initialState,
   dispatch: () => {},
   // set a default value
 });
