@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import Heading from "../Common/Heading";
+import { Button, FormControl, TextField, Typography } from "@mui/material";
 import {
-  Button,
-  FormControl,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { ActionKind, STEPS } from "../../Helpers/types";
+  ActionKind,
+  RatingApiPayload,
+  RatingKind,
+  Ratings,
+  STEPS,
+} from "../../Helpers/types";
 import { useGlobalContext } from "../../Context/AppContext";
+import { submitRating } from "../../Services/ratingService";
+import { useSubmitRating } from "../../Hooks/useRatingService";
+import { LoadingButton } from "@mui/lab";
+import OtpInput from "./OtpInput";
 
 const YourInformationForm = () => {
   const { state, dispatch } = useGlobalContext();
@@ -17,7 +21,9 @@ const YourInformationForm = () => {
   const [email, setEmail] = useState(state.userInformation.email);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [showHumanityCheck, setShowHumanityCheck] = useState(false);
-  const [otp, setOtp] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = event.target.value;
     setEmail(newEmail);
@@ -28,7 +34,7 @@ const YourInformationForm = () => {
     setIsValidEmail(isValid);
   };
 
-  const handleNextClick = () => {
+  const handleSubmit = async () => {
     if (firstName && lastName && email) {
       // dispatch({
       //   type: ActionKind.UPDATE_STEP,
@@ -36,7 +42,7 @@ const YourInformationForm = () => {
       //     currentStep: STEPS.STEP_4,
       //   },
       // });
-      setShowHumanityCheck(true);
+      // setShowHumanityCheck(true);
       dispatch({
         type: ActionKind.UPDATE_USER_INFORMATION,
         payload: {
@@ -47,11 +53,63 @@ const YourInformationForm = () => {
           },
         },
       });
-    }
-  };
 
-  const handleOtpSubmit = () => {
-    console.log("OTP", otp);
+      const payload: RatingApiPayload = {
+        rating: (function () {
+          switch (state.rating) {
+            case RatingKind.NEGATIVE:
+              return Ratings.DOWN;
+            case RatingKind.NEUTRAL:
+              return Ratings.NETURAL;
+            case RatingKind.POSITIVE:
+              return Ratings.UP;
+            default:
+              return Ratings.NETURAL;
+          }
+        })(),
+        boss: {
+          firstName: state.bossInformation.firstName
+            ? state.bossInformation.firstName
+            : "",
+          lastName: state.bossInformation.lastName
+            ? state.bossInformation.lastName
+            : "",
+          title: state.bossInformation.title ? state.bossInformation.title : "",
+          email: state.bossInformation.email ? state.bossInformation.email : "",
+          organization: state.bossInformation.companyName
+            ? state.bossInformation.companyName
+            : "",
+        },
+        user: {
+          firstName: firstName ? firstName : "",
+          lastName: lastName ? lastName : "",
+          email: email ? email : "",
+        },
+      };
+      setLoading(true);
+      setShowHumanityCheck(false);
+      submitRating(payload)
+        .then((response) => {
+          if (response.error === null) {
+            console.log("Data is", response.data);
+            dispatch({
+              type: ActionKind.UPDATE_RATING_ID,
+              payload: {
+                ratingId: parseInt(response.data.ratingId),
+              },
+            });
+            setShowHumanityCheck(true);
+          } else {
+            throw Error("" + response.error);
+          }
+        })
+        .catch((error) => {
+          console.log("There was some error while submitting rating!", error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   return (
@@ -114,51 +172,19 @@ const YourInformationForm = () => {
         >
           Back
         </Button>
-        <Button
+        <LoadingButton
+          loading={loading}
           color="primary"
           variant="contained"
           size="large"
           component="a"
-          onClick={handleNextClick}
+          onClick={handleSubmit}
           target="_blank"
         >
-          Next
-        </Button>
+          Submit
+        </LoadingButton>
       </div>
-      {showHumanityCheck && (
-        <>
-          {/* <Heading variant="h4" heading="Confirm Your Humanity"/> */}
-          <Typography variant="h4"> Confirm Your Humanity </Typography>
-          {/* <Stack
-            direction="column"
-            alignSelf="center"
-            sx={{ width: "100%", padding: "0px 50px" }}
-          > */}
-          <FormControl>
-            <TextField
-              sx={{ margin: "8px" }}
-              type="number"
-              name="otp"
-              placeholder="Enter OTP"
-              value={otp}
-              onChange={(event) => setOtp(event.target.value)}
-            />
-            <div>
-              <Button
-                color="primary"
-                variant="contained"
-                size="large"
-                component="a"
-                onClick={handleOtpSubmit}
-                target="_blank"
-              >
-                Submit
-              </Button>
-            </div>
-          </FormControl>
-          {/* </Stack> */}
-        </>
-      )}
+      {showHumanityCheck && <OtpInput />}
     </div>
   );
 };

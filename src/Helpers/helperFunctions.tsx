@@ -2,7 +2,7 @@ import { STEPS } from "./types";
 import Rate from "../Components/Rate";
 import BossInformation from "../Components/BossInformation.tsx";
 import YourInformation from "../Components/YourInformation.tsx";
-import { useGlobalContext } from "../Context/AppContext";
+import Success from "../Components/Success"
 
 export const getStepMapping = (step: STEPS) => {
   switch (step) {
@@ -13,7 +13,7 @@ export const getStepMapping = (step: STEPS) => {
     case STEPS.STEP_3:
       return <YourInformation />;
     case STEPS.STEP_4:
-      return <h1>Step 4 Placeholder</h1>;
+      return <Success/>;
     default:
       return <Rate />;
   }

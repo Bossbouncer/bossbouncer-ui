@@ -9,7 +9,9 @@ export enum ActionKind {
   UPDATE_RATING = "UPDATE_RATING",
   UPDATE_STEP = "UPDATE_STEP",
   UPDATE_BOSS_INFORMATION = "UPDATE_BOSS_INFORMATION",
-  UPDATE_USER_INFORMATION = "UPDATE_USER_INFORMATION"
+  UPDATE_USER_INFORMATION = "UPDATE_USER_INFORMATION",
+  UPDATE_RATING_ID = "UPDATE_RATING_ID",
+  UPDATE_ACCESS_TOKEN = "UPDATE_ACCESS_TOKEN",
 }
 
 export enum RatingKind {
@@ -26,6 +28,8 @@ export enum STEPS {
 }
 
 export interface GlobalState {
+  accessToken: null | string;
+  ratingId: Number;
   rating: RatingKind;
   currentStep: STEPS;
   bossInformation: {
@@ -50,7 +54,51 @@ export interface ActionType {
   type: ActionKind;
   payload?: any;
 }
+//API TYPES
 
+export enum Ratings {
+  UP = "UP",
+  DOWN = "DOWN",
+  NETURAL = "NEUTRAL",
+}
+
+export interface RatingInformationPayload {
+  rating: RatingKind;
+  bossInformation: {
+    companyName: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    title: string;
+  };
+  userInformation: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+}
+
+export interface RatingApiPayload {
+  rating: Ratings;
+  boss: {
+    organization: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    title: string;
+  };
+  user: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+}
+
+export interface VerifyRatingApiPayload {
+  ratingId: Number;
+  otp: string;
+  email: string;
+}
 // export interface ReducerType {
 //   (state: GlobalState, action: CountAction): void;
 // }

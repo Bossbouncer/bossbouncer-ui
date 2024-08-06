@@ -1,7 +1,9 @@
 import { GlobalState, ActionType, STEPS, ActionKind } from "../Helpers/types";
 
 export const initialState = {
+  ratingId: 0,
   rating: 0,
+  accessToken: null,
   currentStep: STEPS.STEP_1,
   bossInformation: {
     firstName: undefined,
@@ -40,6 +42,16 @@ export const reducer = (state: GlobalState, action: ActionType) => {
       return {
         ...state,
         userInformation: payload.userInformation,
+      };
+    case ActionKind.UPDATE_RATING_ID:
+      return {
+        ...state,
+        ratingId: payload.ratingId,
+      };
+    case ActionKind.UPDATE_ACCESS_TOKEN:
+      return {
+        ...state,
+        accessToken: payload.accessToken,
       };
     default:
       return state;
