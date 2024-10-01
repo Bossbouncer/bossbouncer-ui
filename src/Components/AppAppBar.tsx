@@ -15,6 +15,8 @@ import { AcmeLogo } from "../Icons/AcmeLogo";
 import BossBouncerLogo from "../Icons/BossBouncerLogo";
 import BossBouncerLogo2 from "../Icons/BossBouncerLogo2";
 import { useGlobalContext } from "../Context/AppContext";
+import { ActionKind } from "../Helpers/types";
+import { removeToken } from "../Helpers/helperFunctions";
 
 const logoStyle = {
   width: "40px",
@@ -30,7 +32,7 @@ interface AppAppBarProps {
 function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
   const { state, dispatch } = useGlobalContext();
   const [open, setOpen] = React.useState(false);
-
+  const [, forceUpdate] = React.useState<object>({});
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -94,7 +96,15 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
             >
               {/* <AcmeLogo styles={logoStyle}/> */}
               {/* <BossBouncerLogo/> */}
-              <BossBouncerLogo2 />
+              <div
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  window.location.href = "/";
+                }}
+              >
+                <BossBouncerLogo2 />
+              </div>
+
               {/* <img
                 src={
                   'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/61f12e6faf73568658154dae_SitemarkDefault.svg'
@@ -104,11 +114,13 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
               /> */}
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
                 <MenuItem
-                  onClick={() => scrollToSection("features")}
+                  onClick={() => {
+                    window.location.href = "/dashboard";
+                  }}
                   sx={{ py: "6px", px: "12px" }}
                 >
                   <Typography variant="body2" color="text.primary">
-                    Features
+                    Dashboard
                   </Typography>
                 </MenuItem>
                 <MenuItem
@@ -163,7 +175,7 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
               >
                 Sign in
               </Button> */}
-              {state.accessToken === null ? (
+              {localStorage.getItem("accessToken") === null ? (
                 <Button
                   color="primary"
                   variant="contained"
@@ -171,6 +183,9 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                   component="a"
                   // href="/material-ui/getting-started/templates/sign-up/"
                   target="_blank"
+                  onClick={() => {
+                    window.location.href = "/signin";
+                  }}
                 >
                   Sign in
                 </Button>
@@ -182,6 +197,18 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                   component="a"
                   // href="/material-ui/getting-started/templates/sign-up/"
                   target="_blank"
+                  onClick={() => {
+                    // localStorage.removeItem("accessToken");
+                    // dispatch({
+                    //   type: ActionKind.UPDATE_ACCESS_TOKEN,
+                    //   payload: {
+                    //     accessToken: null,
+                    //     email:null
+                    //   },
+                    // });
+                    removeToken(dispatch);
+                    window.location.href = "/";
+                  }}
                 >
                   Sign Out
                 </Button>
@@ -229,8 +256,12 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                       toggleColorMode={toggleColorMode}
                     />
                   </Box>
-                  <MenuItem onClick={() => scrollToSection("features")}>
-                    Features
+                  <MenuItem
+                    onClick={() => {
+                      window.location.href = "/dashboard";
+                    }}
+                  >
+                    Dashboard
                   </MenuItem>
                   <MenuItem onClick={() => scrollToSection("testimonials")}>
                     Testimonials
@@ -263,6 +294,10 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                         component="a"
                         target="_blank"
                         sx={{ width: "100%" }}
+                        onClick={() => {
+                          removeToken(dispatch);
+                          window.location.href = "/";
+                        }}
                       >
                         Sign out
                       </Button>

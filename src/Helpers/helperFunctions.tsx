@@ -1,8 +1,8 @@
-import { STEPS } from "./types";
+import { ActionKind, STEPS } from "./types";
 import Rate from "../Components/Rate";
 import BossInformation from "../Components/BossInformation.tsx";
 import YourInformation from "../Components/YourInformation.tsx";
-import Success from "../Components/Success"
+import Success from "../Components/Success";
 
 export const getStepMapping = (step: STEPS) => {
   switch (step) {
@@ -13,8 +13,20 @@ export const getStepMapping = (step: STEPS) => {
     case STEPS.STEP_3:
       return <YourInformation />;
     case STEPS.STEP_4:
-      return <Success/>;
+      return <Success />;
     default:
       return <Rate />;
   }
+};
+
+export const removeToken = (dispatch: any) => {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("email");
+  dispatch({
+    type: ActionKind.UPDATE_ACCESS_TOKEN,
+    payload: {
+      accessToken: null,
+      email: null,
+    },
+  });
 };

@@ -3,49 +3,51 @@ import React, { useState } from "react";
 import { useGlobalContext } from "../../Context/AppContext";
 import { verifyRating } from "../../Services/ratingService";
 import theme from "../../theme";
-import { ActionKind, STEPS, VerifyRatingApiPayload } from "../../Helpers/types";
+import {
+  ActionKind,
+  STEPS,
+  ValidateLoginOtpPayload,
+  VerifyRatingApiPayload,
+} from "../../Helpers/types";
 import { LoadingButton } from "@mui/lab";
+import { verifyLoginOtp } from "../../Services/otpService";
+import { removeToken } from "../../Helpers/helperFunctions";
 
-const OtpInput = () => {
-  const [otp, setOtp] = useState<string | undefined>(undefined);
-  const { state, dispatch } = useGlobalContext();
+type InputProps = {
+  email: string;
+};
+
+const OtpInput = (props: InputProps) => {
+  const { email } = props;
+  const [otp, setOtp] = useState<string>("");
+  //   const { state, dispatch } = useGlobalContext();
   const [loading, setLoading] = useState(false);
-  const [otpError, setOtpError] = useState("")
+  const [otpError, setOtpError] = useState("");
+  const { state, dispatch } = useGlobalContext();
   const handleVerify = async () => {
-    console.log("OTP", otp);
-    console.log("State", state);
-    const payload: VerifyRatingApiPayload = {
-      ratingId: state.ratingId,
-      otp: otp === undefined ? "" : otp,
-      email: state.userInformation.email ? state.userInformation.email : "",
+    const payload: ValidateLoginOtpPayload = {
+      otp,
+      email,
     };
     setLoading(true);
-    verifyRating(payload)
+    verifyLoginOtp(payload)
       .then((response) => {
+        console.log("Response is", response);
         if (response.error === null) {
-          console.log("response is",response)
           dispatch({
             type: ActionKind.UPDATE_ACCESS_TOKEN,
             payload: {
               accessToken: response.data.accessToken,
-              email:payload.email
+              email: payload.email,
             },
           });
-          dispatch({
-            type: ActionKind.UPDATE_STEP,
-            payload: {
-              currentStep: STEPS.STEP_4,
-            },
-          });
+          window.location.href = "/dashboard";
         } else {
           throw response.error;
-          // throw Error("" + response.error);
         }
       })
       .catch((error) => {
-        // setOtpError("Invalid OTP")
-        console.log("There was some error while verifying rating!", error,error.response);
-        setOtpError(error.response.data.message)
+        console.log("There was some error while verifying rating", error);
       })
       .finally(() => {
         setLoading(false);

@@ -109,6 +109,20 @@ export interface VerifyRatingApiPayload {
 //   children: ReactNode;
 // }
 
+export interface getRatingPayload {
+  email: string;
+  accessToken: string | null;
+}
+
+export interface RequestLoginOtpPayload {
+  email: string;
+}
+
+export interface ValidateLoginOtpPayload {
+  email: string;
+  otp: string;
+}
+
 export type GlobalContent = {
   state: GlobalState;
   dispatch: (action: ActionType) => void;

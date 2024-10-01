@@ -3,7 +3,7 @@ import { GlobalState, ActionType, STEPS, ActionKind } from "../Helpers/types";
 export const initialState = {
   ratingId: 0,
   rating: 0,
-  accessToken: null,
+  accessToken: localStorage.getItem("accessToken"),
   currentStep: STEPS.STEP_1,
   bossInformation: {
     firstName: undefined,
@@ -49,6 +49,10 @@ export const reducer = (state: GlobalState, action: ActionType) => {
         ratingId: payload.ratingId,
       };
     case ActionKind.UPDATE_ACCESS_TOKEN:
+      if (payload.accessToken && payload.email) {
+        localStorage.setItem("accessToken", payload.accessToken);
+        localStorage.setItem("email", payload.email);
+      }
       return {
         ...state,
         accessToken: payload.accessToken,

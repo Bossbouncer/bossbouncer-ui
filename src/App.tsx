@@ -10,6 +10,10 @@ import { MyGlobalContext, useGlobalContext } from "./Context/AppContext";
 import { reducer, initialState } from "./Context/Reducer";
 import { STEPS } from "./Helpers/types";
 import { getStepMapping } from "./Helpers/helperFunctions";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./Components/Dashboard";
+import SignIn from "./Components/SignIn";
+
 export default function App() {
   const [mode, setMode] = React.useState<PaletteMode>(localStorage.theme);
   const LPtheme = createTheme(getLPTheme(mode));
@@ -42,7 +46,17 @@ export default function App() {
               };
             }}
           >
-            {getStepMapping(state.currentStep)}
+            <Router>
+              <Routes>
+                <Route path="/" element={getStepMapping(state.currentStep)} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/signin" element={<SignIn />} />
+                <Route
+                  path="*"
+                  element={<div className="component">Not Found</div>}
+                />
+              </Routes>
+            </Router>
           </Box>
         </div>
       </ThemeProvider>

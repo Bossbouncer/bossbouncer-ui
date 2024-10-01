@@ -11,7 +11,9 @@ const ShareDashboard = () => {
         Play!
       </Typography>
 
-      <Button size="large" variant="contained" sx={{ marginRight: "10px" }}>
+      <Button size="large" variant="contained" sx={{ marginRight: "10px" }} onClick={()=>{
+        window.location.href="/dashboard"
+      }}>
         Dashboard
       </Button>
       <Button size="large" endIcon={<ShareIcon />} variant="outlined">

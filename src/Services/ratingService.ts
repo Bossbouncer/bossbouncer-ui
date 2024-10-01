@@ -1,9 +1,11 @@
 import axios from "axios";
 import {
+  getRatingPayload,
   RatingApiPayload,
   RatingInformationPayload,
   RatingKind,
   Ratings,
+  RequestLoginOtpPayload,
   VerifyRatingApiPayload,
 } from "../Helpers/types";
 
@@ -47,6 +49,25 @@ export const verifyRating = async (payload: VerifyRatingApiPayload) => {
     return { data: resp.data, error: null };
   } catch (error) {
     console.log("There was some error while verifying rating", error);
+    return { data: null, error };
+  }
+};
+
+export const getRating = async (payload: getRatingPayload) => {
+  try {
+    const resp = await axios.post(
+      `${process.env.REACT_APP_PUBLIC_HOST}api/ratings/getRating?&email=${payload.email}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${payload.accessToken}`,
+        },
+      }
+    );
+    console.log("The value of resp is", resp);
+    return { data: resp.data, error: null };
+  } catch (error) {
+    console.log("There was some error while getting rating", error);
     return { data: null, error };
   }
 };

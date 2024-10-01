@@ -18,9 +18,10 @@ const YourInformationForm = () => {
   const { state, dispatch } = useGlobalContext();
   const [firstName, setFirstName] = useState(state.userInformation.firstName);
   const [lastName, setLastName] = useState(state.userInformation.lastName);
-  const [email, setEmail] = useState(state.userInformation.email);
+  const [email, setEmail] = useState(localStorage.getItem("email") || state.userInformation.email);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [showHumanityCheck, setShowHumanityCheck] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const [loading, setLoading] = useState(false);
 
@@ -95,16 +96,21 @@ const YourInformationForm = () => {
             dispatch({
               type: ActionKind.UPDATE_RATING_ID,
               payload: {
-                ratingId: parseInt(response.data.ratingId),
+                ratingId: parseInt(response.data.data.ratingId),
               },
             });
             setShowHumanityCheck(true);
           } else {
-            throw Error("" + response.error);
+            throw response.error;
+            // throw Error("" + response.error);
           }
         })
         .catch((error) => {
+          setSubmitError(error.response.data.message);
           console.log("There was some error while submitting rating!", error);
+          if (error.response.status === 409) {
+            setShowHumanityCheck(true);
+          }
         })
         .finally(() => {
           setLoading(false);
@@ -115,6 +121,9 @@ const YourInformationForm = () => {
   return (
     <div>
       <Heading heading={"About You"} />
+      <Typography sx={{ color: (theme) => theme.palette.error.main }}>
+        {submitError}
+      </Typography>
       <FormControl margin="normal">
         <TextField
           sx={{ margin: "8px" }}
@@ -142,6 +151,7 @@ const YourInformationForm = () => {
           name="email"
           placeholder="Personal Email Address"
           value={email}
+          disabled={localStorage.getItem("email")!==null}
           required
           onChange={handleEmailChange}
           error={email === "" || !isValidEmail}
