@@ -12,7 +12,7 @@ const Index = () => {
       <div className="left-side">
         <Robot1 isMobile={isMobile} />
       </div>
-      <h1>{state.rating}</h1>
+      {/* <h1>{state.rating}</h1> */}
       <div className="right-side">
         <RatingSystem />
       </div>

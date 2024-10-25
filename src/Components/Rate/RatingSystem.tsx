@@ -17,7 +17,7 @@ const RatingSystem = () => {
     <div className="rating">
       <Heading heading={"Rate Your Boss"} />
       <Typography variant="h4" color={themeObject.palette.error.main}>
-        Forever Anonymous
+        Forever Confidential
       </Typography>
       <div className="selection-buttons">
         <PushableButton
