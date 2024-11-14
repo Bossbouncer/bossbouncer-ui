@@ -127,3 +127,8 @@ export type GlobalContent = {
   state: GlobalState;
   dispatch: (action: ActionType) => void;
 };
+
+export type FaqProps = {
+  question: string;
+  answer: string;
+};

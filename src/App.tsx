@@ -13,6 +13,8 @@ import { getStepMapping } from "./Helpers/helperFunctions";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./Components/Dashboard";
 import SignIn from "./Components/SignIn";
+import FAQ from "./Components/FAQ"
+import ShareDashboard from "./Components/Success/ShareDashboard";
 
 export default function App() {
   const [mode, setMode] = React.useState<PaletteMode>(localStorage.theme);
@@ -51,6 +53,8 @@ export default function App() {
                 <Route path="/" element={getStepMapping(state.currentStep)} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/signin" element={<SignIn />} />
+                <Route path="/FAQ" element={<FAQ/>}/>
+                <Route path="share" element={<ShareDashboard/>}/>
                 <Route
                   path="*"
                   element={<div className="component">Not Found</div>}

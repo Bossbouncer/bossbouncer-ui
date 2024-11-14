@@ -148,7 +148,9 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                   </Typography>
                 </MenuItem> */}
                 <MenuItem
-                  onClick={() => scrollToSection("faq")}
+                  onClick={() => {
+                    window.location.href = "/FAQ";
+                  }}
                   sx={{ py: "6px", px: "12px" }}
                 >
                   <Typography variant="body2" color="text.primary">
@@ -272,7 +274,9 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                   <MenuItem onClick={() => scrollToSection("pricing")}>
                     Pricing
                   </MenuItem> */}
-                  <MenuItem onClick={() => scrollToSection("faq")}>
+                  <MenuItem onClick={() => {
+                      window.location.href = "/FAQ";
+                    }}>
                     FAQ
                   </MenuItem>
                   <Divider />
