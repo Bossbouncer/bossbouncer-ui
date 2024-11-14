@@ -46,8 +46,9 @@ const ShareDashboard = () => {
         <span
           style={{
             position: "absolute",
-            bottom: "100%",
-            left: "50%",
+            // bottom: "125%",
+            bottom:"48%",
+            left: "70%",
             transform: "translateX(-50%)",
             marginBottom: "8px",
             padding: "5px 10px",

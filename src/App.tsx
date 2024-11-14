@@ -54,7 +54,6 @@ export default function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/FAQ" element={<FAQ/>}/>
-                <Route path="share" element={<ShareDashboard/>}/>
                 <Route
                   path="*"
                   element={<div className="component">Not Found</div>}
