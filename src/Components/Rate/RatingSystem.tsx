@@ -44,7 +44,8 @@ const RatingSystem = () => {
           />
         </PushableButton>
         <PushableButton
-          color={themeObject.palette.primary.main}
+          // color={themeObject.palette.primary.main}
+          color="yellow"
           gradientColor="hsl(0 0% 0%)"
           onClick={() => {
             dispatch({
