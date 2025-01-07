@@ -32,7 +32,7 @@ export const submitRating = async (payload: RatingApiPayload) => {
       `${process.env.REACT_APP_PUBLIC_HOST}api/ratings/submitRating`,
       payload
     );
-    console.log("The value of resp is", resp);
+    // console.log("The value of resp is", resp);
     return { data: resp.data, error: null };
   } catch (error) {
     console.log("There was some error while submitting rating", error);
@@ -45,7 +45,7 @@ export const verifyRating = async (payload: VerifyRatingApiPayload) => {
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_HOST}api/ratings/verifyRating?ratingId=${payload.ratingId}&otp=${payload.otp}&email=${payload.email}`
     );
-    console.log("The value of resp is", resp);
+    // console.log("The value of resp is", resp);
     return { data: resp.data, error: null };
   } catch (error) {
     console.log("There was some error while verifying rating", error);
@@ -64,7 +64,7 @@ export const getRating = async (payload: getRatingPayload) => {
         },
       }
     );
-    console.log("The value of resp is", resp);
+    // console.log("The value of resp is", resp);
     return { data: resp.data, error: null };
   } catch (error) {
     console.log("There was some error while getting rating", error);

@@ -73,6 +73,7 @@ const BossInformationForm = () => {
   };
 
   const handleCompanySelection = (value: string | null) => {
+    console.log("Handle company selections");
     if (value !== null) {
       setCompanyName(value);
     } else {
@@ -88,9 +89,10 @@ const BossInformationForm = () => {
           <DynamicAutocomplete
             fetchSuggestions={getCompanies}
             onSelectionChange={handleCompanySelection}
-            defaultValue={(companyName && companyName) || ""}
+            defaultValue={state.referrer || state.bossInformation.companyName}
             error={companyName === ""}
             helperText={"Please enter company name"}
+            disabled={!!state.referrer}
           />
           {/* <AutocompleteComponent/> */}
           {/* <TextField

@@ -6,9 +6,10 @@ import Autocomplete from "@mui/material/Autocomplete";
 interface DynamicAutocompleteProps {
   fetchSuggestions: (input: string) => Promise<string[]>; // Function to fetch suggestions based on input
   onSelectionChange?: (value: string | null) => void;
-  defaultValue: string;
+  defaultValue: string | undefined;
   error: boolean;
   helperText: string;
+  disabled?:boolean;
 }
 
 const DynamicAutocomplete: React.FC<DynamicAutocompleteProps> = ({
@@ -17,9 +18,13 @@ const DynamicAutocomplete: React.FC<DynamicAutocompleteProps> = ({
   defaultValue = "",
   error = false,
   helperText = "",
+  disabled=false
 }) => {
   const [options, setOptions] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
+  if (defaultValue === undefined) {
+    defaultValue = "";
+  }
 
   useEffect(() => {
     if (inputValue) {
@@ -38,6 +43,7 @@ const DynamicAutocomplete: React.FC<DynamicAutocompleteProps> = ({
     <Autocomplete
       sx={{ margin: "8px" }}
       freeSolo
+      disabled={disabled}
       options={options}
       value={defaultValue}
       onInputChange={(event, value) => setInputValue(value)}

@@ -12,6 +12,7 @@ export enum ActionKind {
   UPDATE_USER_INFORMATION = "UPDATE_USER_INFORMATION",
   UPDATE_RATING_ID = "UPDATE_RATING_ID",
   UPDATE_ACCESS_TOKEN = "UPDATE_ACCESS_TOKEN",
+  UPDATE_REFERRER="UPDATE_REFERRER"
 }
 
 export enum RatingKind {
@@ -32,6 +33,7 @@ export interface GlobalState {
   ratingId: Number;
   rating: RatingKind;
   currentStep: STEPS;
+  referrer:string;
   bossInformation: {
     companyName: string | undefined;
     firstName: string | undefined;
