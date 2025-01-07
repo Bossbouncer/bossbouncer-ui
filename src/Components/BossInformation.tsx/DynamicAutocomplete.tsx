@@ -51,7 +51,7 @@ const DynamicAutocomplete: React.FC<DynamicAutocompleteProps> = ({
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Company"
+          label={disabled?"":"Search company"}
           variant="outlined"
           error={error} // Pass the error state
           helperText={error ? helperText : ""} // Display the helper text if in error state
