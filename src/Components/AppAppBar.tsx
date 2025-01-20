@@ -288,6 +288,9 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                         component="a"
                         target="_blank"
                         sx={{ width: "100%" }}
+                        onClick={() => {
+                          window.location.href = "/signin";
+                        }}
                       >
                         Sign in
                       </Button>

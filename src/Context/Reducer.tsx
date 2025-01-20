@@ -3,6 +3,7 @@ import { GlobalState, ActionType, STEPS, ActionKind } from "../Helpers/types";
 export const initialState = {
   ratingId: 0,
   rating: 0,
+  referrer: '',
   accessToken: localStorage.getItem("accessToken"),
   currentStep: STEPS.STEP_1,
   bossInformation: {
@@ -47,6 +48,11 @@ export const reducer = (state: GlobalState, action: ActionType) => {
       return {
         ...state,
         ratingId: payload.ratingId,
+      };
+    case ActionKind.UPDATE_REFERRER:
+      return {
+        ...state,
+        referrer: payload.referrer,
       };
     case ActionKind.UPDATE_ACCESS_TOKEN:
       if (payload.accessToken && payload.email) {

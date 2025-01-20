@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Heading from "../Common/Heading";
 import {
   Button,
@@ -9,14 +9,26 @@ import {
 } from "@mui/material";
 import { ActionKind, STEPS } from "../../Helpers/types";
 import { useGlobalContext } from "../../Context/AppContext";
+import { getCompanies } from "../../Services/helperService";
+import DynamicAutocomplete from "./DynamicAutocomplete";
 
 const BossInformationForm = () => {
   const { state, dispatch } = useGlobalContext();
-  const [companyName, setCompanyName] = useState<string | undefined>(state.bossInformation.companyName);
-  const [firstName, setFirstName] = useState<string | undefined>(state.bossInformation.firstName);
-  const [lastName, setLastName] = useState<string | undefined>(state.bossInformation.lastName);
-  const [email, setEmail] = useState<string | undefined>(state.bossInformation.email);
-  const [title, setTitle] = useState<string | undefined>(state.bossInformation.title);
+  const [companyName, setCompanyName] = useState<string | undefined>(
+    state.bossInformation.companyName
+  );
+  const [firstName, setFirstName] = useState<string | undefined>(
+    state.bossInformation.firstName
+  );
+  const [lastName, setLastName] = useState<string | undefined>(
+    state.bossInformation.lastName
+  );
+  const [email, setEmail] = useState<string | undefined>(
+    state.bossInformation.email
+  );
+  const [title, setTitle] = useState<string | undefined>(
+    state.bossInformation.title
+  );
 
   const [isValidEmail, setIsValidEmail] = useState(true);
 
@@ -31,6 +43,21 @@ const BossInformationForm = () => {
   };
 
   const handleNextClick = () => {
+    if (firstName === undefined) {
+      setFirstName("");
+    }
+    if (lastName === undefined) {
+      setLastName("");
+    }
+    if (email === undefined) {
+      setEmail("");
+    }
+    if (title === undefined) {
+      setTitle("");
+    }
+    if (companyName === undefined) {
+      setCompanyName("");
+    }
     if (
       firstName &&
       lastName &&
@@ -60,12 +87,38 @@ const BossInformationForm = () => {
     }
   };
 
+  const handleCompanyInputChange = (value: string | null) => {
+    if (value !== null) {
+      setCompanyName(value);
+    } else {
+      setCompanyName("");
+    }
+  };
+
+  const handleCompanySelection = (value: string | null) => {
+    if (value !== null) {
+      setCompanyName(value);
+    } else {
+      setCompanyName("");
+    }
+  };
+
   return (
     <div>
       <Heading heading={"About Your Boss"} />
       <FormControl>
         <Stack>
-          <TextField
+          <DynamicAutocomplete
+            handleCompanyInputChange={handleCompanyInputChange}
+            fetchSuggestions={getCompanies}
+            onSelectionChange={handleCompanySelection}
+            defaultValue={state.referrer || state.bossInformation.companyName}
+            error={companyName === ""}
+            helperText={"Please enter company name"}
+            disabled={!!state.referrer}
+          />
+          {/* <AutocompleteComponent/> */}
+          {/* <TextField
             sx={{ margin: "8px" }}
             type="text"
             name="companyName"
@@ -76,7 +129,7 @@ const BossInformationForm = () => {
             }}
             error={companyName === ""}
             helperText={companyName === "" ? "Please Enter Company Name" : ""}
-          />
+          /> */}
           <TextField
             sx={{ margin: "8px" }}
             type="text"

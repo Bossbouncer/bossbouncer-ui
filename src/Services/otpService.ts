@@ -9,7 +9,7 @@ export const requestLoginOtp = async (payload: RequestLoginOtpPayload) => {
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_HOST}api/auth/requestLoginOtp?email=${payload.email}`
     );
-    console.log("The value of resp is", resp);
+    // console.log("The value of resp is", resp);
     return { data: resp.data, error: null };
   } catch (error) {
     console.log("There was some error while requesting OTP", error);

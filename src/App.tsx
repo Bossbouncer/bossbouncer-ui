@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import AppAppBar from "./Components/AppAppBar";
 import { Box, CssBaseline, PaletteMode, Typography } from "@mui/material";
 import getLPTheme from "./getLPTheme";
@@ -8,12 +9,12 @@ import Hero from "./Components/Hero";
 import Rate from "./Components/Rate";
 import { MyGlobalContext, useGlobalContext } from "./Context/AppContext";
 import { reducer, initialState } from "./Context/Reducer";
-import { STEPS } from "./Helpers/types";
-import { getStepMapping } from "./Helpers/helperFunctions";
+import { ActionKind, STEPS } from "./Helpers/types";
+import { getQueryParams, getStepMapping } from "./Helpers/helperFunctions";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./Components/Dashboard";
 import SignIn from "./Components/SignIn";
-import FAQ from "./Components/FAQ"
+import FAQ from "./Components/FAQ";
 import ShareDashboard from "./Components/Success/ShareDashboard";
 
 export default function App() {
@@ -27,6 +28,26 @@ export default function App() {
     });
   };
   const [state, dispatch] = React.useReducer(reducer, initialState);
+
+  useEffect(() => {
+    const queryParams = getQueryParams();
+    if (queryParams["company"]) {
+      dispatch({
+        type: ActionKind.UPDATE_REFERRER,
+        payload: {
+          referrer: queryParams["company"],
+        },
+      });
+      dispatch({
+        type: ActionKind.UPDATE_BOSS_INFORMATION,
+        payload: {
+          bossInformation: {
+            companyName: queryParams["company"],
+          },
+        },
+      });
+    }
+  }, []);
 
   return (
     <MyGlobalContext.Provider value={{ state, dispatch }}>
@@ -53,7 +74,7 @@ export default function App() {
                 <Route path="/" element={getStepMapping(state.currentStep)} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/signin" element={<SignIn />} />
-                <Route path="/FAQ" element={<FAQ/>}/>
+                <Route path="/FAQ" element={<FAQ />} />
                 <Route
                   path="*"
                   element={<div className="component">Not Found</div>}

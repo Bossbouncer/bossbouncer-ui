@@ -30,3 +30,15 @@ export const removeToken = (dispatch: any) => {
     },
   });
 };
+
+export function getQueryParams(): Record<string, string> {
+  const queryString = window.location.search; // Get the query string part of the URL
+  const urlParams = new URLSearchParams(queryString);
+  const params: Record<string, string> = {}; // Define a properly typed object
+
+  urlParams.forEach((value, key) => {
+      params[key] = value; // No error now
+  });
+
+  return params;
+}
