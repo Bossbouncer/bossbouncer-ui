@@ -72,8 +72,15 @@ const BossInformationForm = () => {
     }
   };
 
+  const handleCompanyInputChange = (value: string | null) => {
+    if (value !== null) {
+      setCompanyName(value);
+    } else {
+      setCompanyName("");
+    }
+  };
+
   const handleCompanySelection = (value: string | null) => {
-    console.log("Handle company selections");
     if (value !== null) {
       setCompanyName(value);
     } else {
@@ -87,6 +94,7 @@ const BossInformationForm = () => {
       <FormControl>
         <Stack>
           <DynamicAutocomplete
+            handleCompanyInputChange={handleCompanyInputChange}
             fetchSuggestions={getCompanies}
             onSelectionChange={handleCompanySelection}
             defaultValue={state.referrer || state.bossInformation.companyName}

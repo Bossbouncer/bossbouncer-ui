@@ -6,6 +6,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 interface DynamicAutocompleteProps {
   fetchSuggestions: (input: string) => Promise<string[]>; // Function to fetch suggestions based on input
   onSelectionChange?: (value: string | null) => void;
+  handleCompanyInputChange: (value:string|null)=>void;
   defaultValue: string | undefined;
   error: boolean;
   helperText: string;
@@ -15,6 +16,7 @@ interface DynamicAutocompleteProps {
 const DynamicAutocomplete: React.FC<DynamicAutocompleteProps> = ({
   fetchSuggestions,
   onSelectionChange,
+  handleCompanyInputChange,
   defaultValue = "",
   error = false,
   helperText = "",
@@ -46,7 +48,10 @@ const DynamicAutocomplete: React.FC<DynamicAutocompleteProps> = ({
       disabled={disabled}
       options={options}
       value={defaultValue}
-      onInputChange={(event, value) => setInputValue(value)}
+      onInputChange={(event, value) => {
+        setInputValue(value)
+        handleCompanyInputChange(value)
+      }}
       onChange={(event, value) => onSelectionChange?.(value)}
       renderInput={(params) => (
         <TextField
