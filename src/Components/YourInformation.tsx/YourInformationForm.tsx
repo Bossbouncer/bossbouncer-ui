@@ -18,7 +18,9 @@ const YourInformationForm = () => {
   const { state, dispatch } = useGlobalContext();
   const [firstName, setFirstName] = useState(state.userInformation.firstName);
   const [lastName, setLastName] = useState(state.userInformation.lastName);
-  const [email, setEmail] = useState(localStorage.getItem("email") || state.userInformation.email);
+  const [email, setEmail] = useState(
+    localStorage.getItem("email") || state.userInformation.email
+  );
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [showHumanityCheck, setShowHumanityCheck] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -36,6 +38,15 @@ const YourInformationForm = () => {
   };
 
   const handleSubmit = async () => {
+    if (firstName === undefined) {
+      setFirstName("");
+    }
+    if (lastName === undefined) {
+      setLastName("");
+    }
+    if (email === undefined) {
+      setEmail("");
+    }
     if (firstName && lastName && email) {
       // dispatch({
       //   type: ActionKind.UPDATE_STEP,
@@ -151,7 +162,7 @@ const YourInformationForm = () => {
           name="email"
           placeholder="Personal Email Address"
           value={email}
-          disabled={localStorage.getItem("email")!==null}
+          disabled={localStorage.getItem("email") !== null}
           required
           onChange={handleEmailChange}
           error={email === "" || !isValidEmail}

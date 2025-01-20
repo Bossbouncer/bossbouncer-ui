@@ -43,6 +43,21 @@ const BossInformationForm = () => {
   };
 
   const handleNextClick = () => {
+    if (firstName === undefined) {
+      setFirstName("");
+    }
+    if (lastName === undefined) {
+      setLastName("");
+    }
+    if (email === undefined) {
+      setEmail("");
+    }
+    if (title === undefined) {
+      setTitle("");
+    }
+    if (companyName === undefined) {
+      setCompanyName("");
+    }
     if (
       firstName &&
       lastName &&
