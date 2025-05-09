@@ -16,6 +16,7 @@ import Dashboard from "./Components/Dashboard";
 import SignIn from "./Components/SignIn";
 import FAQ from "./Components/FAQ";
 import ShareDashboard from "./Components/Success/ShareDashboard";
+import Analytics from "./Components/Analytics";
 
 export default function App() {
   const [mode, setMode] = React.useState<PaletteMode>(localStorage.theme);
@@ -75,6 +76,7 @@ export default function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/FAQ" element={<FAQ />} />
+                <Route path="/analytics" element={<Analytics/>}/>
                 <Route
                   path="*"
                   element={<div className="component">Not Found</div>}

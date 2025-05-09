@@ -116,6 +116,13 @@ export interface getRatingPayload {
   accessToken: string | null;
 }
 
+export interface getRatingSummaryPayload {
+  organization: string;
+  startDate: string;
+  endDate: string;
+  apiKey: string;
+}
+
 export interface RequestLoginOtpPayload {
   email: string;
 }

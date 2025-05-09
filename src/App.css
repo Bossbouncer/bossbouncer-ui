@@ -44,6 +44,7 @@
   /* height: 85vh; */
   /* margin: 100px 30px 40px 40px; */
   border-radius: 20px;
+  /* overflow-y: scroll; */
 }
 @keyframes slide-in-right {
   0% {

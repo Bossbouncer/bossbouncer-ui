@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   getRatingPayload,
+  getRatingSummaryPayload,
   RatingApiPayload,
   RatingInformationPayload,
   RatingKind,
@@ -68,6 +69,24 @@ export const getRating = async (payload: getRatingPayload) => {
     return { data: resp.data, error: null };
   } catch (error) {
     console.log("There was some error while getting rating", error);
+    return { data: null, error };
+  }
+};
+
+export const getRatingsSummary =  async (payload: getRatingSummaryPayload) => {
+  try {
+    const resp = await axios.get(
+      `${process.env.REACT_APP_PUBLIC_HOST}api/report/bosses/ratings-summary?organization=${payload.organization}&startDate=${payload.startDate}&endDate=${payload.endDate}`,
+      {
+        headers: {
+          "X-API-KEY": `${payload.apiKey}`,
+        },
+      }
+    );
+    // console.log("The value of resp is", resp);
+    return { data: resp.data, error: null };
+  } catch (error) {
+    console.log("There was some error while getting rating summary", error);
     return { data: null, error };
   }
 };

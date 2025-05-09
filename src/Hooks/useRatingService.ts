@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { submitRating } from "../Services/ratingService";
 import { RatingApiPayload } from "../Helpers/types";
 
